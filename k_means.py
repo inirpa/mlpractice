@@ -26,6 +26,7 @@ class K_Means:
                     classification = distances.index(min(distances))
                     self.classifications[classification].append(cordinates)
             prev_centroid = dict(self.centroids)
+            
 # data_set = pd.read_excel('titanic.xls')
 # # K_Means(data_set)
 # data_set.drop(['name'], 1, inplace=True)
