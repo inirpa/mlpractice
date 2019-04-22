@@ -26,6 +26,20 @@ class K_Means:
                     classification = distances.index(min(distances))
                     self.classifications[classification].append(cordinates)
             prev_centroid = dict(self.centroids)
+
+            for classification in self.classifications:
+                self.centroids[classification] = np.average(self.classifications[classification], axis=0)
+            optimized = True
+
+            for c in self.centroids:
+                orginal_centroid = prev_centroid[c]
+                current_centroid = self.centroids[c]
+
+                if sum((current_centroid- orginal_centroid)/orginal_centroid*100.0) > self.tolerance:
+                    optimized = False
+            if optimized:
+                break
+
             
 # data_set = pd.read_excel('titanic.xls')
 # # K_Means(data_set)
