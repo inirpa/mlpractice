@@ -6,9 +6,10 @@ import random
 
 
 class K_Means:
-	def __init__(self, k=2, max_iterations=300):
+	def __init__(self, k=2, max_iterations=10, tolerance=0.001):
 		self.k = k
 		self.max_iterations = max_iterations
+		self.tolerance = tolerance
 
 	def fit(self, data_set):
 		self.centroids = {}
@@ -21,33 +22,30 @@ class K_Means:
 			#classifications of data_set(x,y) is some centroid
 			for j in range(self.k):
 				self.classifications[j] = []
-			# for featureset in X:
-			# 	distances = [np.linalg.norm(featureset-self.centroids[centroid]) for centroid in self.centroids]
-			# print(distances)			
+			
 			for cordinates in data_set:
 				distances = []
 				for centroid in self.centroids:
 					distances.append(np.linalg.norm(cordinates-self.centroids[centroid]))					
 				classification = distances.index(min(distances))
 				self.classifications[classification].append(cordinates)
-				print(distances)
-			print(self.classifications)
-			# 		# classification = distances.index(min(distances))
-					# self.classifications[classification].append(cordinates)
-			# prev_centroid = dict(self.centroids)
-			break
-			# for classification in self.classifications:
-			# 	self.centroids[classification] = np.average(self.classifications[classification], axis=0)
-			# optimized = True
+			
+			prev_centroid = dict(self.centroids)
+			print(self.centroids)
+			for classification in self.classifications:
+				self.centroids[classification] = np.average(self.classifications[classification], axis=0)				
+			optimized = True
 
-			# for c in self.centroids:
-			# 	orginal_centroid = prev_centroid[c]
-			# 	current_centroid = self.centroids[c]
+			for c in self.centroids:
+				orginal_centroid = prev_centroid[c]
+				current_centroid = self.centroids[c]
 
-			# 	if sum((current_centroid- orginal_centroid)/orginal_centroid*100.0) > self.tolerance:
-			# 		optimized = False
-			# if optimized:
-			# 	break
+				if sum((current_centroid- orginal_centroid)/orginal_centroid*100.0) > self.tolerance:
+					optimized = False
+			if optimized:
+				print("Final centroids")
+				print(self.centroids)
+				break
 
 	def predict(self, data_set):
 		distances = []
@@ -74,16 +72,19 @@ class K_Means:
 # X = preprocessing.scale(X)
 
 
-X = np.array([[1, 2],
-			 [5, 8],
-				[1,1],
-			 [5,4]
+X = np.array([
+			[1, 2],
+			[5, 8],
+			[2, 2],
+			[3, 3],
+			[1, 6],
+			[5, 6]
 			 ])
 
 colors = ['r','g','b','c','k','o','y']
-for cordinates in X:
-    plt.scatter(cordinates[0], cordinates[1], c=colors[random.randint(1,3)])
-plt.show()
+# for cordinates in X:
+#     plt.scatter(cordinates[0], cordinates[1], c=colors[random.randint(1,3)])
+# plt.show()
 
 km = K_Means()
 km.fit(X)
