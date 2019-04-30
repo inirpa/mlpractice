@@ -31,7 +31,7 @@ class K_Means:
 				self.classifications[classification].append(cordinates)
 			
 			prev_centroid = dict(self.centroids)
-			print(self.centroids)
+			# print(self.centroids)
 			for classification in self.classifications:
 				self.centroids[classification] = np.average(self.classifications[classification], axis=0)				
 			optimized = True
@@ -43,9 +43,15 @@ class K_Means:
 				if sum((current_centroid- orginal_centroid)/orginal_centroid*100.0) > self.tolerance:
 					optimized = False
 			if optimized:
-				print("Final centroids")
-				print(self.centroids)
+				# print("Final centroids")
+				# print(self.centroids)
 				break
+		print(self.classifications)
+		colors = ['r','g','b','c','k','o','y']
+		for key, value in self.classifications.items():
+			for cordinates in value:
+				plt.scatter(cordinates[0], cordinates[1], c=colors[key])
+		plt.show()
 
 	def predict(self, data_set):
 		distances = []
@@ -78,13 +84,11 @@ X = np.array([
 			[2, 2],
 			[3, 3],
 			[1, 6],
-			[5, 6]
+			[2, 4],
+			[5, 6],
+			[4.5 ,7]
 			 ])
-
-colors = ['r','g','b','c','k','o','y']
-# for cordinates in X:
-#     plt.scatter(cordinates[0], cordinates[1], c=colors[random.randint(1,3)])
-# plt.show()
 
 km = K_Means()
 km.fit(X)
+# print(km.predict([5,8]))
