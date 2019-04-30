@@ -21,18 +21,17 @@ class K_Means:
 			#classifications of data_set(x,y) is some centroid
 			for j in range(self.k):
 				self.classifications[j] = []
-			for featureset in X:
-				distances = [np.linalg.norm(featureset-self.centroids[centroid]) for centroid in self.centroids]
-			print(distances)
-			distances = []
+			# for featureset in X:
+			# 	distances = [np.linalg.norm(featureset-self.centroids[centroid]) for centroid in self.centroids]
+			# print(distances)			
 			for cordinates in data_set:
+				distances = []
 				for centroid in self.centroids:
-					distances = np.linalg.norm(cordinates-self.centroids[centroid])
-					print(distances)
-			# 	classification = distances.index(min(distances))
-			# 	self.classifications[classification].append(cordinates)
-			
-			# print(self.classifications)
+					distances.append(np.linalg.norm(cordinates-self.centroids[centroid]))					
+				classification = distances.index(min(distances))
+				self.classifications[classification].append(cordinates)
+				print(distances)
+			print(self.classifications)
 			# 		# classification = distances.index(min(distances))
 					# self.classifications[classification].append(cordinates)
 			# prev_centroid = dict(self.centroids)
@@ -76,14 +75,15 @@ class K_Means:
 
 
 X = np.array([[1, 2],
-			 [1.5, 1.8],
-			 [3,4]
+			 [5, 8],
+				[1,1],
+			 [5,4]
 			 ])
 
 colors = ['r','g','b','c','k','o','y']
-# for cordinates in X:
-#     plt.scatter(cordinates[0], cordinates[1], c=colors[random.randint(1,3)])
-# plt.show()
+for cordinates in X:
+    plt.scatter(cordinates[0], cordinates[1], c=colors[random.randint(1,3)])
+plt.show()
 
 km = K_Means()
 km.fit(X)
