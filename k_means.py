@@ -46,11 +46,16 @@ class K_Means:
 				# print("Final centroids")
 				# print(self.centroids)
 				break
-		print(self.classifications)
+		# print(self.classifications)
+		# print(self.centroids)
 		colors = ['r','g','b','c','k','o','y']
 		for key, value in self.classifications.items():
 			for cordinates in value:
 				plt.scatter(cordinates[0], cordinates[1], c=colors[key])
+		plt.scatter(self.centroids[0][0], self.centroids[0][1], c=colors[0], marker='s')
+		plt.text(self.centroids[0][0], self.centroids[0][1], 'centroid')
+		plt.scatter(self.centroids[1][0], self.centroids[1][1], c=colors[1], marker='s')
+		plt.text(self.centroids[1][0], self.centroids[1][1], 'centroid')
 		plt.show()
 
 	def predict(self, data_set):
@@ -86,7 +91,11 @@ X = np.array([
 			[1, 6],
 			[2, 4],
 			[5, 6],
-			[4.5 ,7]
+			[4.5 ,7],
+			[3.5, 5],
+			[3.5, 4.5],
+			[3.5, 6],
+			[3.5, 4]
 			 ])
 
 km = K_Means()
