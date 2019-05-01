@@ -49,14 +49,19 @@ class K_Means:
 		# print(self.classifications)
 		# print(self.centroids)
 
-	def predict(self, data_set):
-		distances = []
-		for centroid in self.centroids:
-			distances.append(np.linalg.norm(data_set-self.centroids[centroid]))
-		classification = distances.index(min(distances))
-		return classification
+	def predict(self, predict_set):
+		predictions = {}
+		predictions[0] = []
+		predictions[1] = []
+		for cordinates in predict_set:
+			distances = []
+			for centroid in self.centroids:
+				distances.append(np.linalg.norm(cordinates-self.centroids[centroid]))
+			classification = distances.index(min(distances))
+			predictions[classification].append(cordinates)
+		return predictions
 
-	def plot(self, data_set, predict_set, predicted_cluster):
+	def plot(self, predicted_cluster):
 		colors = ['r','g','b','c','k','o','y']
 		for key, value in self.classifications.items():
 			for cordinates in value:
@@ -65,8 +70,10 @@ class K_Means:
 		plt.text(self.centroids[0][0], self.centroids[0][1], 'centroid')
 		plt.scatter(self.centroids[1][0], self.centroids[1][1], c=colors[1], marker='s')
 		plt.text(self.centroids[1][0], self.centroids[1][1], 'centroid')
-		plt.scatter(predict_set[0], predict_set[1], c=colors[predicted_cluster], marker='*')
-		plt.text(predict_set[0], predict_set[1], 'predicted cluster')
+		for key, value in predicted_cluster.items():
+			for cordinates in value:
+				plt.scatter(cordinates[0], cordinates[1], c=colors[key], marker='*')
+				plt.text(cordinates[0], cordinates[1], 'predicted cluster')
 		plt.show()
 
 # data_set = pd.read_excel('titanic.xls')
@@ -105,5 +112,10 @@ X = np.array([
 
 km = K_Means()
 km.fit(X)
-predicted_cluster =km.predict([2.5,5])
-km.plot(X, [2.5,5], predicted_cluster)
+predict_list = np.array([
+	[1.5, 1],
+	[3, 1],
+	[5, 9]
+	])
+predicted_cluster =km.predict(predict_list)
+km.plot(predicted_cluster)
