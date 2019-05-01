@@ -48,6 +48,15 @@ class K_Means:
 				break
 		# print(self.classifications)
 		# print(self.centroids)
+
+	def predict(self, data_set):
+		distances = []
+		for centroid in self.centroids:
+			distances.append(np.linalg.norm(data_set-self.centroids[centroid]))
+		classification = distances.index(min(distances))
+		return classification
+
+	def plot(self, data_set, predict_set, predicted_cluster):
 		colors = ['r','g','b','c','k','o','y']
 		for key, value in self.classifications.items():
 			for cordinates in value:
@@ -56,14 +65,10 @@ class K_Means:
 		plt.text(self.centroids[0][0], self.centroids[0][1], 'centroid')
 		plt.scatter(self.centroids[1][0], self.centroids[1][1], c=colors[1], marker='s')
 		plt.text(self.centroids[1][0], self.centroids[1][1], 'centroid')
+		plt.scatter(predict_set[0], predict_set[1], c=colors[predicted_cluster], marker='*')
+		plt.text(predict_set[0], predict_set[1], 'predicted cluster')
 		plt.show()
 
-	def predict(self, data_set):
-		distances = []
-		for centroid in self.centroids:
-			distances.append(np.linalg.norm(data_set-self.centroids[centroid]))
-		classification = distances.index(min(distances))
-		return classification
 # data_set = pd.read_excel('titanic.xls')
 # # K_Means(data_set)
 # data_set.drop(['name'], 1, inplace=True)
@@ -100,4 +105,5 @@ X = np.array([
 
 km = K_Means()
 km.fit(X)
-# print(km.predict([5,8]))
+predicted_cluster =km.predict([2.5,5])
+km.plot(X, [2.5,5], predicted_cluster)
