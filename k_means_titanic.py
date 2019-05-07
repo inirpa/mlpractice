@@ -76,46 +76,45 @@ class K_Means:
 				plt.text(cordinates[0], cordinates[1], 'predicted cluster')
 		plt.show()
 
-# data_set = pd.read_excel('titanic.xls')
-# # K_Means(data_set)
-# data_set.drop(['name'], 1, inplace=True)
-# data_set.fillna(0, inplace=True)
-# columns = data_set.columns.values
-# for column in columns:
-#     if data_set[column].dtype != np.int64 and data_set[column].dtype != np.float64:
-#         data_set[column] = data_set[column].astype('category')
-#         data_set[column] = data_set[column].cat.codes
-# print(data_set.head())
+data_set = pd.read_excel('titanic.xls')
+data_set.drop(['name'], 1, inplace=True)
+data_set.fillna(0, inplace=True)
+columns = data_set.columns.values
+for column in columns:
+    if data_set[column].dtype != np.int64 and data_set[column].dtype != np.float64:
+        data_set[column] = data_set[column].astype('category')
+        data_set[column] = data_set[column].cat.codes
+print(data_set.head())
 
-# # X = data_set.drop(['survived'], 1, inplace=True)
-# # X = np.array(X)
-# # X= X.astype(float)
+# X = data_set.drop(['survived'], 1, inplace=True)
+# X = np.array(X)
+# X= X.astype(float)
 
-# X = np.array(data_set.drop(['survived'], 1).astype(float))
-# X = preprocessing.scale(X)
+X = np.array(data_set.drop(['survived'], 1).astype(float))
+X = preprocessing.scale(X)
 
 
-X = np.array([
-			[1, 2],
-			[5, 8],
-			[2, 2],
-			[3, 3],
-			[1, 6],
-			[2, 4],
-			[5, 6],
-			[4.5 ,7],
-			[3.5, 5],
-			[3.5, 4.5],
-			[3.5, 6],
-			[3.5, 4]
-			 ])
+# X = np.array([
+# 			[1, 2],
+# 			[5, 8],
+# 			[2, 2],
+# 			[3, 3],
+# 			[1, 6],
+# 			[2, 4],
+# 			[5, 6],
+# 			[4.5 ,7],
+# 			[3.5, 5],
+# 			[3.5, 4.5],
+# 			[3.5, 6],
+# 			[3.5, 4]
+# 			 ])
 
 km = K_Means()
 km.fit(X)
-predict_list = np.array([
-	[1.5, 1],
-	[3, 1],
-	[5, 9]
-	])
-predicted_cluster =km.predict(predict_list)
-km.plot(predicted_cluster)
+# predict_list = np.array([
+# 	[1.5, 1],
+# 	[3, 1],
+# 	[5, 9]
+# 	])
+# predicted_cluster =km.predict(predict_list)
+# km.plot(predicted_cluster)
