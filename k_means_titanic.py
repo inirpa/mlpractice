@@ -15,7 +15,6 @@ class K_Means:
 		self.centroids = {}
 		for i in range(self.k):
 			self.centroids[i] = data_set[i]
-
 		for i in range(self.max_iterations):
 			self.classifications = {}
 			#classifications[centroid] = data_set[cordinate_x, cordinate_y]
@@ -61,21 +60,6 @@ class K_Means:
 			predictions[classification].append(cordinates)
 		return predictions
 
-	def plot(self, predicted_cluster):
-		colors = ['r','g','b','c','k','o','y']
-		for key, value in self.classifications.items():
-			for cordinates in value:
-				plt.scatter(cordinates[0], cordinates[1], c=colors[key])
-		plt.scatter(self.centroids[0][0], self.centroids[0][1], c=colors[0], marker='s')
-		plt.text(self.centroids[0][0], self.centroids[0][1], 'centroid')
-		plt.scatter(self.centroids[1][0], self.centroids[1][1], c=colors[1], marker='s')
-		plt.text(self.centroids[1][0], self.centroids[1][1], 'centroid')
-		for key, value in predicted_cluster.items():
-			for cordinates in value:
-				plt.scatter(cordinates[0], cordinates[1], c=colors[key], marker='*')
-				plt.text(cordinates[0], cordinates[1], 'predicted cluster')
-		plt.show()
-
 data_set = pd.read_excel('titanic.xls')
 data_set.drop(['name'], 1, inplace=True)
 data_set.fillna(0, inplace=True)
@@ -117,4 +101,3 @@ km.fit(X)
 # 	[5, 9]
 # 	])
 # predicted_cluster =km.predict(predict_list)
-# km.plot(predicted_cluster)
