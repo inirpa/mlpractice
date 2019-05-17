@@ -12,7 +12,7 @@ from sklearn import preprocessing
 # plt.show()
 
 class K_Means:
-	def __init__(self, k=7, max_iterations=10, tolerance=0.001):
+	def __init__(self, k=6, max_iterations=20, tolerance=0.001):
 		self.k = k
 		self.max_iterations = max_iterations
 		self.tolerance = tolerance
@@ -22,7 +22,10 @@ class K_Means:
 		for i in range(self.k):
 			self.centroids[i] = data_set[i]
 
+		current_iteration = 1
 		for i in range(self.max_iterations):
+			print("Iteration {} of {} ".format(current_iteration, self.max_iterations))
+			current_iteration = current_iteration+1
 			self.classifications = {}
 			#classifications[centroid] = data_set[cordinate_x, cordinate_y]
 			#classifications of data_set(x,y) is some centroid
@@ -72,7 +75,7 @@ class K_Means:
 		colors = ['r','g','b','c','k','y','m']
 		for key, value in self.classifications.items():
 			for cordinates in value:
-				print('plotting point no. : {} of {} '.format(i))
+				print('plotting point no. : {} '.format(i))
 				i = i+1
 				plt.scatter(cordinates[0], cordinates[1], c=colors[key])
 
