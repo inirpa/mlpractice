@@ -12,7 +12,7 @@ from sklearn import preprocessing
 # plt.show()
 
 class K_Means:
-	def __init__(self, k=7, max_iterations=20, tolerance=0.001):
+	def __init__(self, k=7, max_iterations=10, tolerance=0.001):
 		self.k = k
 		self.max_iterations = max_iterations
 		self.tolerance = tolerance
@@ -82,11 +82,39 @@ class K_Means:
 		# 		plt.text(cordinates[0], cordinates[1], 'predicted cluster')
 		plt.show()
 
+	def plot3D(self):
+		i = 1
+		fig = plt.figure()
+		ax = fig.add_subplot(111, projection='3d')
+		colors = ['r','g','b','c','k','y','m']
+		for key, value in self.classifications.items():
+			for cordinates in value:
+				print('plotting point no. :' + i)
+				i = i+1
+				ax.scatter(cordinates[0], cordinates[1], cordinates[2], c=colors[key])
+		print('Plot completed.')
+
+		# for i in range(self.k):
+		# 	ax.scatter(self.centroids[i][0], self.centroids[i][1], self.centroids[i][2], c=colors[i], marker='s')
+		# 	ax.text(self.centroids[i][0], self.centroids[i][1], self.centroids[i][2], 'centroid')
+		# for key, value in predicted_cluster.items():
+		# 	for cordinates in value:
+		# 		plt.scatter(cordinates[0], cordinates[1], c=colors[key], marker='*')
+		# 		plt.text(cordinates[0], cordinates[1], 'predicted cluster')
+		plt.show()
+
 
 df = pd.read_excel('worldcities.xlsx')
-df.drop(['city','city_ascii','country','iso2','iso3','admin_name','capital','id','population'], 1, inplace=True)
+print(len(df)) #Print total rows
+print(df.isnull().sum(axis = 0)) #print out total empty values in each column
+df.dropna(subset = ['population'] ,inplace=True) #drop rows where population is 0
+print(len(df))
+df.drop(['city','city_ascii','country','iso2','iso3','admin_name','capital','id'], 1, inplace=True)
 X = np.array(df)
 
 km = K_Means()
+print('fit started')
 km.fit(X)
-km.plot()
+print('fit done')
+print('Plotting started ...')
+km.plot3D()
