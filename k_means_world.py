@@ -68,13 +68,16 @@ class K_Means:
 		return predictions
 
 	def plot(self):
+		i = 1
 		colors = ['r','g','b','c','k','y','m']
 		for key, value in self.classifications.items():
 			for cordinates in value:
+				print('plotting point no. : {} of {} '.format(i))
+				i = i+1
 				plt.scatter(cordinates[0], cordinates[1], c=colors[key])
 
 		for i in range(self.k):
-			plt.scatter(self.centroids[i][0], self.centroids[i][1], c=colors[i], marker='s')
+			plt.scatter(self.centroids[i][0], self.centroids[i][1], c=colors[i], marker='*')
 			plt.text(self.centroids[i][0], self.centroids[i][1], 'centroid')
 		# for key, value in predicted_cluster.items():
 		# 	for cordinates in value:
@@ -89,14 +92,14 @@ class K_Means:
 		colors = ['r','g','b','c','k','y','m']
 		for key, value in self.classifications.items():
 			for cordinates in value:
-				print('plotting point no. :' + i)
+				print('plotting point no. : {}'.format(i))
 				i = i+1
 				ax.scatter(cordinates[0], cordinates[1], cordinates[2], c=colors[key])
 		print('Plot completed.')
 
-		# for i in range(self.k):
-		# 	ax.scatter(self.centroids[i][0], self.centroids[i][1], self.centroids[i][2], c=colors[i], marker='s')
-		# 	ax.text(self.centroids[i][0], self.centroids[i][1], self.centroids[i][2], 'centroid')
+		for i in range(self.k):
+			ax.scatter(self.centroids[i][0], self.centroids[i][1], self.centroids[i][2], c=colors[i], marker='*')
+			ax.text(self.centroids[i][0], self.centroids[i][1], self.centroids[i][2], 'centroid')
 		# for key, value in predicted_cluster.items():
 		# 	for cordinates in value:
 		# 		plt.scatter(cordinates[0], cordinates[1], c=colors[key], marker='*')
@@ -105,11 +108,11 @@ class K_Means:
 
 
 df = pd.read_excel('worldcities.xlsx')
+df.drop(['city','city_ascii','country','iso2','iso3','admin_name','capital','id'], 1, inplace=True)
 print(len(df)) #Print total rows
 print(df.isnull().sum(axis = 0)) #print out total empty values in each column
 df.dropna(subset = ['population'] ,inplace=True) #drop rows where population is 0
-print(len(df))
-df.drop(['city','city_ascii','country','iso2','iso3','admin_name','capital','id'], 1, inplace=True)
+df = df[['lng','lat']]
 X = np.array(df)
 
 km = K_Means()
@@ -117,4 +120,5 @@ print('fit started')
 km.fit(X)
 print('fit done')
 print('Plotting started ...')
-km.plot3D()
+# km.plot3D()
+km.plot()
