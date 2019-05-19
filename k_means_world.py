@@ -12,7 +12,7 @@ from sklearn import preprocessing
 # plt.show()
 
 class K_Means:
-	def __init__(self, k=6, max_iterations=20, tolerance=0.001):
+	def __init__(self, k=20, max_iterations=10, tolerance=0.001):
 		self.k = k
 		self.max_iterations = max_iterations
 		self.tolerance = tolerance
@@ -20,6 +20,7 @@ class K_Means:
 	def fit(self, data_set):
 		self.centroids = {}
 		for i in range(self.k):
+			#set first k data sets cordinates as initial centroids
 			self.centroids[i] = data_set[i]
 
 		current_iteration = 1
@@ -29,19 +30,24 @@ class K_Means:
 			self.classifications = {}
 			#classifications[centroid] = data_set[cordinate_x, cordinate_y]
 			#classifications of data_set(x,y) is some centroid
+
 			for j in range(self.k):
 				self.classifications[j] = []
 
 			for cordinates in data_set:
 				distances = []
 				for centroid in self.centroids:
+					#get distances of all cordinates from the current centroids
 					distances.append(np.linalg.norm(cordinates-self.centroids[centroid]))
+
+				#get minimum distance from the centroid and assign it to that centroid classification
 				classification = distances.index(min(distances))
 				self.classifications[classification].append(cordinates)
 
 			prev_centroid = dict(self.centroids)
 			# print(self.centroids)
 			for classification in self.classifications:
+				#get average of the cordinates (dataset) in current classification to determine centroid movement
 				self.centroids[classification] = np.average(self.classifications[classification], axis=0)
 			optimized = True
 
@@ -49,6 +55,7 @@ class K_Means:
 				orginal_centroid = prev_centroid[c]
 				current_centroid = self.centroids[c]
 
+				#find if centroid has moved or not, if not it is optimized
 				if sum((current_centroid- orginal_centroid)/orginal_centroid*100.0) > self.tolerance:
 					optimized = False
 			if optimized:
@@ -72,7 +79,7 @@ class K_Means:
 
 	def plot(self):
 		i = 1
-		colors = ['r','g','b','c','k','y','m']
+		colors = ['r','g','b','c','k','y','m','r','g','b','c','k','y','m','r','g','b','c','k','y','m','r','g','b','c','k','y','m']
 		for key, value in self.classifications.items():
 			for cordinates in value:
 				print('plotting point no. : {} '.format(i))
