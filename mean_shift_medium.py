@@ -18,11 +18,14 @@ X, _ = make_blobs(n_samples=150, centers = clusters, cluster_std = 0.60)
 
 ms = MeanShift()
 ms.fit(X)
+prediction = ms.predict(X)
 cluster_centers = ms.cluster_centers_
-print(cluster_centers)
+# print(cluster_centers)
 
+colors = ['r','g','b','c','k','y','m']
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(X[:,0], X[:,1], X[:,2], marker='o')
+for i in range(len(prediction)):
+	ax.scatter(X[i,0], X[i,1], X[i,2], marker='o', c=colors[prediction[i]])
 ax.scatter(cluster_centers[:,0], cluster_centers[:,1], cluster_centers[:,2], marker='x', color='red', s=300, linewidth=5, zorder=10)
 plt.show()
